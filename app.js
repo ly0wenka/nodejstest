@@ -1,7 +1,9 @@
 const qs = require('node:querystring');
 const express = require('express');
+const path = require('path');
+const fs = require('fs');
 const app = express();
-const port = 3000;
+const port = 3001;
 
 // Serve HTML form
 app.get('/', (req, res) => {
@@ -31,6 +33,19 @@ app.post('/submitpost', (request, res) => {
     });
     
 });
+
+app.get('/ajax_info.txt', (req, res) => {
+    const filePath = path.join(__dirname, 'ajax_info.txt');
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            res.status(404).send('File not found');
+            return;
+        }
+        res.type('text/plain');
+        res.send(data);
+    });
+});
+
 
 // Start server
 app.listen(port, () => {
