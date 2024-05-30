@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+  <title>Test Table JSON</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body>
+
+<div ng-controller="myCtrl">
+  <table border="1">
+    <thead>
+      <tr>
+        <th ng-repeat="(key, value) in data[0]">{{key}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="row in data">
+        <td ng-repeat="value in row">{{value}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+angular.module('myApp', [])
+  .controller('myCtrl', function($scope, $http) {
+    $http.get('http://localhost:3001/test_t_json')
+      .then(function(response) {
+        $scope.data = response.data;
+      })
+      .catch(function(error) {
+        console.error('Error fetching data:', error);
+      });
+  });
+</script>
+
+</body>
+</html>
